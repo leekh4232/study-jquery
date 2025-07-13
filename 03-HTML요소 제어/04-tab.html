@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-tab</title>
+    <style>
+        /* 탭 버튼 */
+        .tab-button-group {
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            display: flex;
+
+            .tab-button {
+                display: block;
+                padding: 15px 35px;
+                font-size: 16px;
+                color: #000;
+                text-decoration: none;
+
+                &:hover {
+                    background-color: #ddd;
+                }
+
+                &.active {
+                    background-color: #ccc;
+                }
+            }
+        }
+
+        /* 탭 페이지 */
+        .tab-page {
+            border: 1px solid #ccc;
+            border-top: 0px;
+            padding: 6px 12px;
+            display: none;
+
+            &.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tab-container">
+        <div class="tab-button-group">
+            <a class="tab-button active" href="#" data-target="#newyork">뉴욕</a>
+            <a class="tab-button" href="#" data-target="#london">런던</a>
+            <a class="tab-button" href="#" data-target="#paris">파리</a>
+            <a class="tab-button" href="#" data-target="#seoul">서울</a>
+        </div>
+
+        <div id="newyork" class="tab-page active">
+            <p>뉴욕에 관련된 컨텐츠...</p>
+        </div>
+        <div id="london" class="tab-page">
+            <p>런던에 관련된 컨텐츠...</p>
+        </div>
+        <div id="paris" class="tab-page">
+            <p>파리에 관련된 컨텐츠...</p>
+        </div>
+        <div id="seoul" class="tab-page">
+            <p>서울에 관련된 컨텐츠...</p>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $('.tab-button').on('click', (e) => {
+            // 모든 active 클래스 제거
+            $('.active').removeClass('active');
+
+            const current = $(e.currentTarget);
+
+            // 클릭된 스스로에게 active 클래스 적용
+            current.addClass('active');
+
+            // 클릭된 버튼에 적용된 'data-target'값을 취득하여 연결된 <div>에 active 클래스 적용
+            const target = current.data('target');
+            $(target).addClass('active');
+        });
+    </script>
+</body>
+
+</html>

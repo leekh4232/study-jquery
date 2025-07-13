@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-MouseEvent</title>
+    <style>
+        .event-box {
+            border: 5px solid #007;
+            background: #d5d5d5;
+            color: #009;
+            font-size: 32px;
+            height: 150px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="listener" class="event-box">Mouse Here~!!!</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        const eventBox = $('#listener');
+
+        eventBox.on('mousedown', (e) => {
+            $(e.currentTarget).html('Mouse Down');
+        });
+
+        eventBox.on('mouseup', (e) => {
+            $(e.currentTarget).html('Mouse Up');
+        });
+
+        eventBox.on('mouseout', (e) => {
+            $(e.currentTarget).html('Mouse Out');
+        });
+
+        eventBox.on('mouseover', (e) => {
+            $(e.currentTarget).html('Mouse Over');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-dataset</title>
+</head>
+
+<body>
+    <button type="button" class="mybtn" data-name="javascript" data-age="20">javascript;20</button>
+    <button type="button" class="mybtn" data-name="vanilla" data-age="15">vanilla;15</button>
+
+    <h1 id="console"></h1>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $('.mybtn').on('click', (e) => {
+            const current = $(e.currentTarget);
+
+            // html태그에 존재하지 않는 속성을 JS로 추가하는 것은 가능
+            corrent.data('helloworld', '안녕하세요.');
+            const name = current.data('name');
+            const age = current.data('age');
+            $('#console').html(`이름: ${name}, 나이: ${age}`);
+        });
+    </script>
+</body>
+
+</html>

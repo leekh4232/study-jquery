@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-KeyEvent</title>
+    <style>
+        .event-box {
+            border: 5px solid #007;
+            background: #d5d5d5;
+            color: #009;
+            font-size: 32px;
+            height: 150px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input {
+            border: 5px solid #a0a;
+            background: #d5d5d5;
+            color: #505;
+            box-sizing: border-box;
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="event-box">
+        up=<span id="result1">0</span>, down=<span id="result2">0</span>
+    </div>
+    <input type="text" id="listener" class="event-box input" placeholder="여기에 입력하세요" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        let up = 0, down = 0;
+
+        const eventBox = $("#listener");
+
+        eventBox.on("keyup", e => {
+            $("#result1").html(++up);
+        });
+
+        eventBox.on("keydown", e => {
+            $("#result2").html(++down);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-KeyCode</title>
+    <style>
+        .event-box {
+            border: 5px solid #007;
+            background: #d5d5d5;
+            color: #009;
+            font-size: 32px;
+            height: 150px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input {
+            border: 5px solid #a0a;
+            background: #d5d5d5;
+            color: #505;
+            box-sizing: border-box;
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="event-box">
+        key=<span id="key"></span>,
+        code=<span id="code"></span>,
+        keyCode=<span id="keyCode"></span>
+    </div>
+    <input type="text" id="listener" class="event-box input" placeholder="여기에 입력하세요" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        const key = $("#key");
+        const code = $("#code");
+        const keyCode = $("#keyCode");
+
+        $('#listener').on('keyup', e => {
+            key.html(e.key);
+            code.html(e.code);
+            keyCode.html(e.keyCode);
+
+            if (e.code == 'Escape') {
+                key.html("");
+                code.html("");
+                keyCode.html("");
+            } else if (e.code == 'Enter') {
+                alert("엔터키가 눌러졌습니다.");
+            }
+        });
+    </script>
+</body>
+
+</html>

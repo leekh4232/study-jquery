@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-Element</title>
+</head>
+
+<body>
+    <h1 id="myid"></h1>
+    <h2 class="mycls"></h2>
+    <h2 class="mycls"></h2>
+    <p></p>
+    <p></p>
+    <div class="a">
+        <div class="b">
+            <h3 id="c"></h3>
+        </div>
+    </div>
+    <h3 class='myh3'></h3>
+    <h3 class='myh3'></h3>
+    <h3 class='myh3'></h3>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        /** Tag 이름으로 접근하는 경우 */
+        const el1 = $("p");
+
+        for (let i = 0; i < el1.length; i++) {
+            $(el1[i]).html("P태그 영역 (" + i + ")");
+        }
+
+        /** Class 이름으로 접근하는 경우 */
+        const el2 = $(".mycls");
+
+        let count = 0;
+        el2.each((i, v) => {
+            console.log(`index: ${i}, value: ${v}`);
+            $(v).html(".mycls 영역 (" + count + ")");
+            count++;
+        });
+
+        /** ID값으로 객체 가져오기 (단일객체,반복필요 없음) */
+        const el3 = $("#myid");
+        el3.html("#myid영역");
+
+        /** CSS 선택자로 가져오기 (단일객체,반복필요 없음) */
+        const el4 = $(".a > .b > #c");
+        el4.html(".a > .b > #c 영역");
+
+        /** CSS 선택자로 복수 객체 가져오기 */
+        const el5 = $(".myh3");
+        // el5.each((i, v) => {
+        //     console.log(`index: ${i}, value: ${v}`);
+        //     $(v).html(".myh3 영역 (" + i + ")");
+        // });
+
+        // 반복 처리 필요 없이 객체 자체가 모든 요소에 작용한다.
+        el5.html(".myh3 영역");
+    </script>
+</body>
+
+</html>

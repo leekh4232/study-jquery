@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-dropdown</title>
+</head>
+
+<body>
+    <label for="subject">과목</label>
+    <select id="my-dropdown">
+        <option value="">--- 선택하세요 ---</option>
+        <option value="http://www.naver.com">네이버</option>
+        <option value="http://www.daum.net">다음</option>
+        <option value="http://www.google.com">구글</option>
+    </select>
+    <button type="button" id="my-button">사이트 열기</button>
+
+    <div id="result"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        /** dropdown의 선택값 변경 이벤트 */
+        $("#my-dropdown").on("change", (e) => {
+            // 드롭다운의 경우에도 선택된 항목의 인덱스를 통해 option 태그에 접근할 필요가 없다.
+            const value = $(e.currentTarget).val();
+
+            // 선택된 항목의 위치
+            const index = $(e.currentTarget).prop("selectedIndex");
+
+            $("#result").html(`선택된 값: ${value}, 선택된 인덱스: ${index}`);
+        });
+
+        /** 버튼의 클릭 이벤트 */
+        document.querySelector("#my-button").addEventListener("click", e => {
+            // dropdown 객체
+            const dropdown = $("#my-dropdown");
+
+            // 선택된 항목의 값
+            const choose = dropdown.val();
+
+            if (choose) {
+                window.open(choose);
+            }
+        });
+    </script>
+</body>
+
+</html>

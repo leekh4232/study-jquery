@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-value</title>
+</head>
+
+<body>
+    <form id="myform">
+        <div>
+            <label for="username">사용자이름</label>
+            <input type="text" name="username" id="username" />
+        </div>
+        <div>
+            <label for="userpass">비밀번호</label>
+            <input type="password" name="userpass" id="userpass" />
+        </div>
+        <!-- Backend에 입력값을 전송하는 버튼 -->
+        <button type="submit" id="btn">입력값 확인</button>
+        <hr />
+
+        <!-- 선택결과를 표시할 div -->
+        <div id="result"></div>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#myform").on("submit", e => {
+            e.preventDefault();
+
+            const username = $("#username");
+            const userpass = $("#userpass");
+
+            if (!username.val()) {
+                alert("사용자 이름을 입력하세요.");
+                username.focus();
+                return;
+            }
+
+            if (!userpass.val()) {
+                alert("비밀번호를 입력하세요.");
+                userpass.focus();
+                return;
+            }
+
+            // 모든 if문을 통과 했다면 입력 내용을 #result에 출력
+            const result = $("#result");
+            result.html(`사용자이름: ${username.val()}, 비밀번호: ${userpass.val()}`);
+            // 폼의 submit 이벤트를 제거하고, 강제 전송
+            // [중요!!] submit 이벤트를 제거하지 않으면 강제 전송시에 이벤트 핸들러가 다시 호출되기 때문에 무한루프에 빠진다.
+            // $(e.currentTarget).off("submit").submit();
+        });
+    </script>
+</body>
+
+</html>

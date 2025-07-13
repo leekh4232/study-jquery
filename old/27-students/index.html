@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <style>
+        .photo {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+
+        .my-table {
+            tbody {
+                td, th {
+                    padding: 5px;
+                    font-size: 12px;
+                }
+
+                td:first-child {
+                    padding: 0;
+                }
+            }
+        }
+
+        .controller {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="img/loading.gif" id="loader" />
+
+    <h1>학생 목록</h1>
+
+    <div class="controller">
+        <form id="my-form">
+            <input type="search" id="my-search" placeholder="이름 검색" />
+            <select name="department_id" id="department_id">
+                <option value="">---- 소속학과 검색 ----</option>
+            </select>
+            <button type="submit">검색</button>
+        </form>
+        <div class="buttons">
+            <a href="add.html">신규 학생 등록</a>
+        </div>
+    </div>
+
+    <table class="my-table">
+        <thead>
+            <th>-</th>
+            <th>번호</th>
+            <th>이름</th>
+            <th>아이디</th>
+            <th>학년</th>
+            <th>생년월일</th>
+            <th>연락처</th>
+            <th>키</th>
+            <th>몸무게</th>
+            <th>이메일</th>
+            <th>성별</th>
+            <th>상태</th>
+            <th>입학일</th>
+            <th>졸업일</th>
+            <th>소속학과번호</th>
+            <th>담당교수번호</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script src="js/FetchHelper.js"></script>
+    <script>
+        // 검색어
+        let keyword = "";
+
+        /** 검색어에 대한 submit 이벤트 */
+        document.querySelector("#my-form").addEventListener('submit', (e) => {
+            e.preventDefault();
+            keyword = document.querySelector("#my-search").value;
+            getStudentList();
+        });
+
+        /** 데이터 요청 함수 */
+        async function getStudentList() {
+            // 로딩바를 화면에 표시함
+            loader.style.display = 'block';
+
+            const dept = document.querySelector("#department_id");
+
+            try {
+                // 백엔드로부터의 응답 받기
+                result = await fetchHelper.get("http://localhost:8080/students", {
+                    __sort: 'id',
+                    __order: 'desc',
+                    name_like: keyword,
+                    department_id: dept[dept.selectedIndex].value
+                });
+            } catch (err) {
+                alert(err.message);
+                return;
+            }
+
+            // 필요한 데이터만 구조분해
+            const {item} = result;
+
+            // 결과를 출력할 <tbody>태그
+            const tbody = document.querySelector(".my-table tbody");
+
+            // 기존에 출력되던 내용을 비운다.
+            tbody.innerHTML = "";
+
+            item.forEach((v, i) => {
+                // 한 줄을 의미하는 <tr>태그를 생성
+                const tr = document.createElement("tr");
+
+                // 프로필 사진만 먼저 처리함
+                let td = document.createElement("td");
+                const img = document.createElement('img');
+                img.classList.add('photo');
+                img.setAttribute('src', v.photo_url);
+                td.appendChild(img);
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.id;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.name;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.user_id;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.grade;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.birthdate.substring(0, 10);
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.phone && `<a href="tel:${v.phone}">${v.phone}</a>`;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.height;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.weight;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.email && `<a href="mailto:${v.email}">${v.email}</a>`;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.gender;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.status;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.admission_date;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.graduation_date;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.department_id;
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = v.professor_id;
+                tr.appendChild(td);
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 페이지가 열림과 동시에 학생 목록 조회 함수 호출
+        getStudentList();
+
+        /** 학과 목록 조회하기 */
+        (async () => {
+            let result = null;
+
+            try {
+                result = await fetchHelper.get("http://localhost:8080/departments", {
+                    _sort: 'id',
+                    _order: 'asc'
+                });
+            } catch (err) {
+                alert(err.message);
+                return;
+            }
+
+            // 학과 목록 데이터를 드롭다운에 적용하기
+            const departmentDropdown = document.querySelector("#department_id");
+
+            result.item.forEach((v, i) => {
+                const option = document.createElement("option");
+                option.setAttribute('value', v.id);
+                option.innerHTML = v.dname;
+                departmentDropdown.appendChild(option);
+            });
+        })();
+
+        // 드롭다운의 change이벤트가 발생했을 때, 학생목록 함수를 콜백으로 연결
+        document.querySelector("#department_id").addEventListener('change', getStudentList);
+    </script>
+</body>
+
+</html>

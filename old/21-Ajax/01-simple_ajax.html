@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            .container {
+                border-bottom: 1px dotted #ccc;
+                padding-bottom: 20px;
+                margin-bottom: 30px;
+                display: flex;
+            }
+
+            .container a {
+                display: block;
+                margin-right: 30px;
+            }
+
+            .text-success {
+                color: #0066ff;
+                font-size: 24px;
+            }
+
+            .text-primary {
+                color: #007700;
+                font-size: 24px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Simple Get</h1>
+        <div class="container">
+            <a href="http://localhost:8080/hello.html">move to hello.html</a>
+            <a href="#" id="btn1">Promise Load</a>
+            <a href="#" id="btn2">Async Await Load</a>
+        </div>
+        <div id="result"></div>
+
+        <script>
+            /** Promise 방식의 Ajax 요청 */
+            document.querySelector("#btn1").addEventListener("click", (e) => {
+                e.preventDefault();
+
+                console.log("Loading...");
+
+                // 요청(접속)할 대상 페이지 주소 -> 이 파일의 소스코드를 읽어온다.
+                const url = "http://localhost:8080/hello.html";
+
+                fetch(url)
+                    .then((response) => {
+                        // 백엔드 접속이 성공한 경우
+                        console.log(response);
+
+                        // 하지만 백엔드가 내가 요청한 컨텐츠를 올바르게 응답했는지는 별도의 문제
+                        if (response.status !== 200) {
+                            // 에러~~
+                            alert(`${response.status} Error가 발생함 - ${response.statusText}`);
+                            return;
+                        }
+
+                        // 정상적인 응답을 받아온 경우 --> 응답 결과를 화면에 출력한다.
+                        response.text().then(html => {
+                            console.log(html);
+                            document.querySelector("#result").innerHTML = html;
+                        });
+                    })
+                    .catch((error) => {
+                        // 백엔드에게 접속 조차 못해보는 경우 (네트워크 문제)
+                        console.error(error);
+                        alert(error.message);
+                    })
+                    .finally(() => {
+                        console.log("Finish!!!");
+                    });
+            });
+
+            /** Async Await 방식의 Ajax 요청(권장) */
+            document.querySelector("#btn2").addEventListener("click", async (e) => {
+                e.preventDefault();
+
+                console.log("Loading...");
+
+                // 요청(접속)할 대상 페이지 주소 -> 이 파일의 소스코드를 읽어온다.
+                const url = "http://localhost:8080/world.html";
+
+                // 결과를 저장할 변수
+                let response = null;
+
+                try {
+                    response = await fetch(url);
+                } catch (error) {
+                    // 백엔드에게 접속 조차 못해보는 경우 (네트워크 문제)
+                    console.error(error);
+                    alert(error.message);
+                    // catch에서 return을 하더라도 finally가 수행된 후 실행이 취소된다.
+                    return;
+                } finally {
+                    console.log("Finish!!!");
+                }
+
+                // 하지만 백엔드가 내가 요청한 컨텐츠를 올바르게 응답했는지는 별도의 문제
+                if (response.status !== 200) {
+                    // 에러~~
+                    alert(`${response.status} Error가 발생함 - ${response.statusText}`);
+                    return;
+                }
+
+                // 정상적인 응답을 받아온 경우 --> 응답 결과를 화면에 출력한다.
+                response.text().then(html => {
+                    console.log(html);
+                    document.querySelector("#result").innerHTML = html;
+                });
+            });
+        </script>
+    </body>
+</html>

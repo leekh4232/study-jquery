@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05-check</title>
+</head>
+
+<body>
+    <form id="myform">
+        <label><input type="checkbox" class="hobby" value="soccor" />축구</label>
+        <label><input type="checkbox" class="hobby" value="basketball" />농구</label>
+        <label><input type="checkbox" class="hobby" value="baseball" />야구</label>
+        <button type="button" id="btn">입력값 확인</button>
+    </form>
+
+    <hr />
+
+    <p id="console"></p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        // 선택 항목이 변경되었을 경우의 이벤트 처리
+        $(".hobby").on('change', e => {
+                const div = $("#console");
+                const current = $(e.currentTarget);
+                div.html(e.currentTarget.value);
+                div.html(div.html() + (current.prop('checked') ? " 체크됨" : " 체크 해제됨"));
+        });
+
+        // 버튼이 눌러진 경우의 처리
+        $("#btn").on("click", e => {
+            // 선택된 체크박스만 객체로 생성
+            const checkedItem = $(".hobby:checked");
+
+            // 선택 항목의 체크박스 배열에서 value값을 추출
+            const checkedValue = Array.from(checkedItem).map((v, i) => $(v).val());
+
+            // 배열의 원소 사이에 ", "를 포함하여 하나의 문자열로 결합 후 출력
+            $("#console").html(`선택항목: ${checkedValue.join(", ")}`);
+        });
+    </script>
+</body>
+
+</html>

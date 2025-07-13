@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-checkall</title>
+</head>
+
+<body>
+    <label>전체선택<input type="checkbox" data-checked=".hobby" /> </label>
+
+    <label><input type="checkbox" class="hobby" value="soccor" />축구</label>
+    <label><input type="checkbox" class="hobby" value="basketball" />농구</label>
+    <label><input type="checkbox" class="hobby" value="baseball" />야구</label>
+
+    <hr />
+
+    <label>전체선택<input type="checkbox" data-checked=".food" /> </label>
+    <label><input type="checkbox" class="food" value="김치" />김치</label>
+    <label><input type="checkbox" class="food" value="불고기" />불고기</label>
+    <label><input type="checkbox" class="food" value="계란말이" />계란말이</label>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("input[data-checked]").on('change', e => {
+            const current = $(e.currentTarget);
+            const targetSelector = current.data('checked');
+            $(targetSelector).prop('checked', current.prop('checked'));
+        });
+    </script>
+</body>
+
+</html>

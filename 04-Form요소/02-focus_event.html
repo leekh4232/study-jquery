@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-focus_event</title>
+</head>
+
+<body>
+    <form id="myform">
+        <h3>주민번호를 입력하세요</h3>
+        <input type="text" name="jumin1" id="jumin1" class="jumin" maxlength="6" />
+        -
+        <input type="password" name="jumin2" id="jumin2" class="jumin" maxlength="7" />
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $('.jumin').on('focus', (e) => {
+            e.currentTarget.style.backgroundColor = '#ff04';
+        });
+
+        $('.jumin').on('blur', (e) => {
+            e.currentTarget.style.backgroundColor = '#fff';
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07-disabled</title>
+</head>
+
+<body>
+    <div>
+        <label for="username"> 이름 <input type="checkbox" data-disabled="#username" /> </label>
+        <input type="text" name="username" id="username" />
+    </div>
+    <div>
+        <label for="email"> 이메일 <input type="checkbox" data-disabled="#email" /> </label>
+        <input type="email" name="email" id="email" />
+    </div>
+    <div>
+        <label for="phone"> 연락처 <input type="checkbox" data-disabled="#phone" /> </label>
+        <input type="tel" name="phone" id="phone" />
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        // 체크박스의 상태에 따라 대상 요소를 비활성화/활성화하는 함수
+        // --> 전달되는 파라미터는 jQuery 객체
+        function disableCheck(checkbox) {
+            const target = checkbox.data('disabled');
+            $(target).prop('disabled', !checkbox.prop('checked'));
+        }
+
+        const checkbox = $("input[data-disabled]");
+
+        checkbox.each((i, v) => {
+            disableCheck($(v));
+        });
+
+        checkbox.on('change', e => {
+            const checkbox = $(e.currentTarget);
+            disableCheck(checkbox);
+        });
+    </script>
+</body>
+
+</html>

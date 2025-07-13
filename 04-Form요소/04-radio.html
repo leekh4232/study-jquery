@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-radio</title>
+</head>
+
+<body>
+    <form id="myform">
+        <label><input type="radio" name="subject" value="html" />HTML</label>
+        <label><input type="radio" name="subject" value="css" />CSS</label>
+        <label><input type="radio" name="subject" value="javascript" />Javascript</label>
+        <button type="button" id="btn">입력값 확인</button>
+    </form>
+
+    <hr />
+
+    <p id="console"></p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("input[name='subject']").on('change', (e) => {
+            // 선택된 radio의 value값을 #console에 출력
+            $("#console").html(`라디오 change 이벤트: ${checked.val()}이(가) 선택됨`);
+        });
+
+        // 전송 버튼이 눌러진 경우의 처리
+        $("#btn").on("click", e => {
+            // 선택된 radio 객체
+            const checked = $("input[name='subject']:checked");
+            $("#console").html(`버튼 click 이벤트: ${checked.val()}이(가) 선택됨`);
+        });
+    </script>
+</body>
+
+</html>

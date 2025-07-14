@@ -19,11 +19,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript">
         $('.jumin').on('focus', (e) => {
-            e.currentTarget.style.backgroundColor = '#ff04';
+            $(e.currentTarget).css('backgroundColor', '#ff04');
         });
 
         $('.jumin').on('blur', (e) => {
-            e.currentTarget.style.backgroundColor = '#fff';
+            $(e.currentTarget).css('backgroundColor', '#fff');
         });
     </script>
 </body>

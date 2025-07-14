@@ -24,7 +24,7 @@
     <script type="text/javascript">
         $("input[name='subject']").on('change', (e) => {
             // 선택된 radio의 value값을 #console에 출력
-            $("#console").html(`라디오 change 이벤트: ${checked.val()}이(가) 선택됨`);
+            $("#console").html(`라디오 change 이벤트: ${$(e.currentTarget).val()}이(가) 선택됨`);
         });
 
         // 전송 버튼이 눌러진 경우의 처리

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-collapse-single</title>
+    <style>
+        .collapsible {
+            .collapsible-title {
+                background-color: #999;
+                color: white;
+                cursor: pointer;
+                padding: 18px;
+                margin: 0;
+                font-size: 16px;
+
+                &:hover {
+                    background-color: #777;
+                }
+
+                &.active {
+                    background-color: #555;
+                }
+            }
+
+            .collapsible-content {
+                background-color: #f1f1f1;
+                padding: 0 18px;
+                height: 0px;
+                overflow: hidden;
+                transition: all 0.2s ease-out;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="collapsible">
+        <h1 class="collapsible-title">Open Collapsible</h1>
+        <div class="collapsible-content">
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+        </div>
+    </div>
+    <div class="collapsible">
+        <h1 class="collapsible-title">Open Collapsible</h1>
+        <div class="collapsible-content">
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+        </div>
+    </div>
+    <div class="collapsible">
+        <h1 class="collapsible-title">Open Collapsible</h1>
+        <div class="collapsible-content">
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+        </div>
+    </div>
+    <div class="collapsible">
+        <h1 class="collapsible-title">Open Collapsible</h1>
+        <div class="collapsible-content">
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+        </div>
+    </div>
+    <div class="collapsible">
+        <h1 class="collapsible-title">Open Collapsible</h1>
+        <div class="collapsible-content">
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+            <p>클릭했을 때 열리는 영역의 컨텐츠</p>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $('.collapsible-title').on('click', (e) => {
+            const current = $(e.currentTarget);
+
+            current.toggleClass('active');
+
+            const content = current.next();
+            const height = content.height();    // 현재 높이값을 px로 가져옴(단위 없음, CSS에서 %로 설정해도 px로 반환됨)
+            console.log(height);                // --> 0 (단위 없음)
+
+            if (!height) {
+                const contentHeight = content.prop('scrollHeight'); // 실제 컨텐츠 높이
+                console.log(contentHeight);     // --> 실제 높이 출력(단위 없음, 정수)
+                content.height(contentHeight);  // 단위 설정 안함
+            } else {
+                content.height(0);
+            }
+        });
+    </script>
+</body>
+
+</html>

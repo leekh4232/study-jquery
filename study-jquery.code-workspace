@@ -1,17 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../study-javascript"
-		}
-	],
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../hossam-blog"
+        }
+    ],
     "settings": {
-        "java.configuration.updateBuildConfiguration": "interactive",
-        "java.debug.settings.onBuildFailureProceed": true,
-        "java.compile.nullAnalysis.mode": "automatic",
-        "workbench.colorTheme": "Default Light+",
         "liveServer.settings.multiRootWorkspaceName": "study-jquery"
     }
 }

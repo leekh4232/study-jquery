@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-자식요소</title>
+</head>
+
+<body>
+    <ul id="list">
+        <li id="one">One</li>
+        <li id="two" class="blue">
+            Two
+            <ul>
+                <li id="a">A</li>
+                <li id="b" class="blue">B</li>
+                <li id="c" class="red">C</li>
+                <li id="d">D</li>
+            </ul>
+        </li>
+        <li id="three">Three</li>
+        <li id="four" class="blue">Four</li>
+    </ul>
+
+    <button type="button" id="btn1">상위 ul의 자식들</button>
+    <button type="button" id="btn2">Two의 하위 ul의 자식들</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $('#btn1').on('click', (e) => {
+            const children = $('#list').children();
+            children.css('background-color', '#06f5');
+        });
+
+        document.querySelector('#btn2').addEventListener('click', (e) => {
+            $('#two > ul').children().css('font-weight', '900');
+        });
+    </script>
+</body>
+
+</html>

@@ -33,9 +33,11 @@
 
         const checkbox = $("input[data-disabled]");
 
-        checkbox.each((i, v) => {
-            disableCheck($(v));
-        });
+        // jQuery의 each() 메서드를 사용하여 탐색
+        checkbox.each((i, v) => disableCheck($(v)));
+
+        // Vanilla JS의 forEach() 메서드를 사용하여 탐색
+        // Array.from(checkbox).forEach(v => disableCheck($(v)));
 
         checkbox.on('change', e => {
             const checkbox = $(e.currentTarget);

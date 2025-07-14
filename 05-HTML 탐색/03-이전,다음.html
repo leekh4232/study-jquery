@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-이전,다음</title>
+</head>
+
+<body>
+    <div class="container">
+        <span>Hello</span>
+        <button type="button" id="btn1">Prev</button>
+        <button type="button" id="btn2">Next</button>
+        <span>World</span>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        let size1 = 15;
+        let size2 = 15;
+
+        $('#btn1').on('click', (e) => {
+            size1 += 5;
+            // 자신의 '이전'요소의 style변경
+            $(e.currentTarget).prev().css('font-size', `${size1}px`);
+        });
+
+        $('#btn2').on('click', (e) => {
+            size2 += 5;
+            // 자신의 '다음'요소의 style변경
+            $(e.currentTarget).next().css('font-size', `${size2}px`);
+        });
+    </script>
+</body>
+
+</html>

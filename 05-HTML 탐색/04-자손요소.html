@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-자손요소</title>
+</head>
+
+<body>
+    <ul id="post1">
+        <li><span class="thumb">1</span></li>
+        <li><span class="thumb">2</span></li>
+        <li><span class="thumb">3</span></li>
+        <li><span class="thumb">4</span></li>
+    </ul>
+
+    <ul id="post2">
+        <li><span class="thumb">1</span></li>
+        <li><span class="thumb">2</span></li>
+        <li><span class="thumb">3</span></li>
+        <li><span class="thumb">4</span></li>
+    </ul>
+
+    <button id="btn1" type="button">자손요소</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $('#btn1').on('click', (e) => {
+            // ul태그 가져오기
+            const post = $('#post1');
+
+            post.find('.thumb').css({
+                color: '#f60',
+                'font-weight': 'bold'   // `-`기호가 있기 때문에 속성명을 문자열로 설정
+            });
+        });
+    </script>
+</body>
+
+</html>

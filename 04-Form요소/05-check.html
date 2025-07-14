@@ -18,16 +18,14 @@
 
     <hr />
 
-    <p id="console"></p>
+    <p id="console">baseball</p>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript">
         // 선택 항목이 변경되었을 경우의 이벤트 처리
         $(".hobby").on('change', e => {
-                const div = $("#console");
                 const current = $(e.currentTarget);
-                div.html(e.currentTarget.value);
-                div.html(div.html() + (current.prop('checked') ? " 체크됨" : " 체크 해제됨"));
+                $("#console").html(current.val() + (current.prop('checked') ? " 체크됨" : " 체크 해제됨"));
         });
 
         // 버튼이 눌러진 경우의 처리

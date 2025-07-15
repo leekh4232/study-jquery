@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-simple-ajax</title>
+    <style>
+        .container {
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+        }
+
+        .container a {
+            display: block;
+            margin-right: 30px;
+        }
+
+        .text-success {
+            color: #0066ff;
+            font-size: 24px;
+        }
+
+        .text-primary {
+            color: #007700;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Simple Get</h1>
+    <div class="container">
+        <a href="#" id="btn1">jQuery 기본 방식</a>
+        <a href="#" id="btn2">Async Await Load</a>
+    </div>
+    <div id="result"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        /** Promise 방식의 Ajax 요청 */
+        $("#btn1").on("click", (e) => {
+            e.preventDefault();
+
+            // 요청(접속)할 대상 페이지 주소 -> 이 파일의 소스코드를 읽어온다.
+            const url = "http://localhost:8080sdf/hello.html";
+
+            $.ajax({
+                /** ajax 기본 옵션 */
+                cache: false,           // 캐쉬 사용 금지 처리
+                url: url,               // 읽어들일 파일의 경로
+                method: 'get',          // 통신방법 (get(기본값), post)
+                data: {},               // 접속대상에게 전달할 파라미터
+                dataType: 'html',       // 읽어올 내용 형식 (json(기본값),html,xml)
+                timeout: 30000,         // 타임아웃 (30초)
+
+                // 통신 시작전 실행할 기능 (ex: 로딩바 표시)
+                beforeSend: function () {
+                    console.log("Loading...");
+                },
+                // 통신 성공시 호출될 함수 (파라미터는 읽어온 내용)
+                success: function (req) {
+                    console.log(req);
+                    $("#result").append(req);
+                },
+                // 통신 실패시 호출될 함수 (파라미터는 에러내용)
+                error: function (error) {
+                    alert(`${error.status} Error가 발생함 - ${error.statusText}`);
+                },
+                // 성공,실패에 상관 없이 맨 마지막에 무조건 호출됨 ex) 로딩바 닫기
+                complete: function () {
+                    console.log(">> Ajax 통신 종료!!!!");
+                }
+            });
+        });
+
+        /** Async Await 방식의 Ajax 요청(권장) */
+        $("#btn2").on("click", async (e) => {
+            e.preventDefault();
+
+            console.log("Loading...");
+
+            // 요청(접속)할 대상 페이지 주소 -> 이 파일의 소스코드를 읽어온다.
+            const url = "http://localhost:8080/woertrld.html";
+
+            // 결과를 저장할 변수
+            let response = null;
+
+            try {
+                response = await $.ajax({
+                    /** ajax 기본 옵션 */
+                    cache: false,           // 캐쉬 사용 금지 처리
+                    url: url,               // 읽어들일 파일의 경로
+                    method: 'get',          // 통신방법 (get(기본값), post)
+                    data: {},               // 접속대상에게 전달할 파라미터
+                    dataType: 'html',       // 읽어올 내용 형식 (json(기본값),html,xml)
+                    timeout: 30000,         // 타임아웃 (30초)
+                });
+            } catch (error) {
+                console.error(error);
+                alert(`${error.status} Error가 발생함 - ${error.statusText}`);
+                return;
+            } finally {
+                console.log("Finish!!!");
+            }
+
+            console.log(response);
+            $("#result").append(response);
+        });
+    </script>
+</body>
+
+</html>

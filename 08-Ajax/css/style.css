@@ -1,15 +1,3 @@
-/* 로딩바 CSS (기존코드 재사용) */
-#loader {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999999999;
-    display: none;
-}
-
 /* 테이블 CSS - HTML,CSS에서 Table단원 "03-공지사항.html"예제 재사용 */
 .my-table {
     border-collapse: collapse;

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-요소생성</title>
+    <style>
+        #list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+            .item {
+                padding: 5px 10px;
+                cursor: pointer;
+                border-bottom: 1px dotted #d5d5d5;
+
+                &:first-child {
+                    border-top: 1px dotted #d5d5d5;
+                }
+
+                &.blue {
+                    background-color: #06f2;
+                }
+
+                &.orange {
+                    background-color: #f602;
+                }
+
+                &.pink {
+                    background-color: #f0f2;
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="comment" />
+    <button type="button" id="appendChild">appendChild</button>
+    <button type="button" id="insertBefore1">insertBefore1</button>
+    <button type="button" id="insertBefore2">insertBefore2</button>
+    <hr />
+    <!-- 동적으로 JS가 생성한 HTML요소가 추가될 위치 -->
+    <ul id="list"></ul>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        // 동적으로 JS가 생성한 HTML요소가 추가될 객체
+        const list = $('#list');
+
+        // 사용자가 입력할 input 태그
+        const comment = $('#comment');
+
+        // 앞으로 생성될 .item 클래스가 지정된 요소에 대한 click 이벤트 미리 지정하기
+        $(document).on("click", ".item", e => {
+            // 클릭한 <li>태그를 제거함
+            $(e.currentTarget).remove();
+        });
+
+        // 동적으로 <li>태그 Element 객체를 생성하여 리턴하는 함수
+        const getItem = (clsName) => {
+            const li = $('<li>');             // jQuery에게 <li>태그를 코딩시킴
+            li.addClass(`item ${clsName}`);   // .item 클래스와 사용자가 지정한 클래스 이름을 추가함
+            li.html(comment.val());           // 사용자가 입력한 내용을 <li>태그의 내용으로 설정함
+
+            return li;
+        };
+
+        $('#appendChild').on('click', (e) => {
+            // A.append(B) --> A의 마지막 자식으로 B를 추가한다.
+            list.append(getItem('blue'));
+        });
+
+        $('#insertBefore1').on('click', (e) => {
+            // A.prepend(B) --> A의 첫번째 자식으로 B를 추가한다.
+            list.prepend(getItem('orange'));
+        });
+
+        $('#insertBefore2').on('click', (e) => {
+            // A.insertBefore(B) --> A를 B의 직전에 삽입한다.
+            getItem('pink').insertBefore($('li:first-child'));
+        });
+    </script>
+</body>
+
+</html>

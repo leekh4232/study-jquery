@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-date-range-picker</title>
+
+    <!-- 플러그인에 따라 CSS가 제공되는 경우가 있음 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.21.1/daterangepicker.min.css" />
+</head>
+<body>
+    <h1>jQuery-date-range-picker</h1>
+    <p>https://longbill.github.io/jquery-date-range-picker/</p>
+
+    <!-- 날짜 범위를 선택할 텍스트 요소 -->
+    <input type="text" id="date-range" />
+    <button type="button" id="confirm">값 확인</button>
+
+    <!-- jQuery 참조 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- 일부 플러그인은 다른 라이브러리에 의존하는 경우가 있음 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <!-- 플러그인은 jQuery 이후에 참조해야 함 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-date-range-picker/0.21.1/jquery.daterangepicker.min.js"></script>
+
+    <script>
+        // 플러그인 가동하기
+        $('#date-range').dateRangePicker({
+            format: 'YYYY-MM-DD',   // 날짜 형식 지정
+            autoClose: true,        // 날짜 범위 선택 시 자동으로 닫히도록 설정
+            showShortcuts: true,    // 날짜 범위 선택 시 시작일과 종료일을 표시하는 옵션
+            singleDate: false       // 단일 날짜 선택이 아닌 범위 선택을 허용
+        });
+
+        $("#confirm").on("click", e => {
+            // 선택된 날짜 범위를 가져오기
+            const dateRange = $("#date-range").val();
+
+            // 선택된 날짜 범위를 alert로 표시
+            alert(`선택된 날짜 범위: ${dateRange}`);
+        });
+    </script>
+</body>
+</html>

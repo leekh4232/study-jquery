@@ -50,8 +50,6 @@
 </head>
 
 <body>
-    <img src="img/loading.gif" id="loader" />
-
     <h1>학과 정보</h1>
 
     <table class="my-table">
@@ -94,8 +92,10 @@
         <a href="#" id="link-delete">삭제하기</a>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="helper/AjaxSetup.js"></script>
     <script>
-        /** [1] 페이지 초기화 */
+        /** [1] 페이지 초기화 (Vanilla JS) */
         // 현재 URL에서 QueryString 부분만 추출
         const search = location.search;
         console.log(`search: ${search}`);
@@ -122,98 +122,44 @@
         /** [2] 백엔드에게 데이터 요청하기 */
         // 페이지 열림과 동시에 작동해야 하므로 즉시실행함수로 구현
         (async () => {
-            // 로딩바를 화면에 표시함
-            loader.style.display = 'block';
-
             // 백엔드 요청 URL --> 데이터를 식별하기 위한 고유값은 백엔드 규격에 의해 path 파라미터로 전송
-            const url = new URL(`http://localhost:8080/departments/${params.id}`);
+            const url = `http://localhost:8080/departments/${params.id}`;
 
-            let result = null;
-
-            try {
-                // 백엔드에 데이터를 요청하고, 응답 받기
-                const response = await fetch(url);
-
-                // 백엔드가 에러를 보내왔다면?
-                if (parseInt(response.status / 100) != 2) {
-                    // 에러 객체 생성후 에러 발생 --> catch로 이동함
-                    const err = new Error(response.statusText);
-                    err.status = response.status;
-                    throw err;
-                }
-
-                // 응답으로부터 JSON 데이터 추출
-                result = await response.json();
-            } catch (err) {
-                console.error(err);
-                alert(err.message);
-                return;
-            } finally {
-                // 로딩바를 숨김
-                loader.style.display = 'none';
-            }
+            let result = await $.get(url);
 
             // 결과를 화면에 출력함
             const { id, dname, loc, phone, email, established, homepage} = result.item;
 
-            document.querySelector('#id').innerHTML = id;
-            document.querySelector('#dname').innerHTML = dname;
-            document.querySelector('#loc').innerHTML = loc;
-            document.querySelector('#phone').innerHTML = phone && `<a href="tel:${phone}">${phone}</a>`;
-            document.querySelector('#email').innerHTML = email && `<a href="mailto:${email}">${email}</a>`;
-            document.querySelector('#established').innerHTML = established;
-            document.querySelector('#homepage').innerHTML = homepage && `<a href="${homepage}" target="_blank">${homepage}</a>`;
+            $('#id').html(id);
+            $('#dname').html(dname);
+            $('#loc').html(loc);
+            $('#phone').html(phone && `<a href="tel:${phone}">${phone}</a>`);
+            $('#email').html(email && `<a href="mailto:${email}">${email}</a>`);
+            $('#established').html(established);
+            $('#homepage').html(homepage && `<a href="${homepage}" target="_blank">${homepage}</a>`);
 
             // 수정페이지 이동 링크의 주소 설정하기
-            document.querySelector("#link-edit").setAttribute("href", `edit.html?id=${id}`);
+            $("#link-edit").attr("href", `edit.html?id=${id}`);
 
             // 삭제 링크에 id값과 학과이름 저장하기
-            const linkDelete = document.querySelector("#link-delete");
-            linkDelete.dataset.id = id;
-            linkDelete.dataset.dname = dname;
+            const linkDelete = $("#link-delete");
+            linkDelete.attr('data-id', id);
+            linkDelete.attr('data-dname', dname);
         })();
 
         /** [3] 데이터 삭제 요청 */
-        document.querySelector("#link-delete").addEventListener("click", async e => {
+        $("#link-delete").on("click", async e => {
             e.preventDefault();
 
-            const dname = e.currentTarget.dataset.dname;
+            const dname = $(e.currentTarget).data('dname');
             if (!confirm(`정말 ${dname}(을)를 삭제하시겠습니까?`)) {
                 return;
             }
 
-            // 로딩바를 화면에 표시함
-            loader.style.display = 'block';
-
             // 백엔드 요청 URL --> 데이터를 식별하기 위한 고유값은 백엔드 규격에 의해 path 파라미터로 전송
             const url = new URL(`http://localhost:8080/departments/${params.id}`);
 
-            let result = null;
-
-            try {
-                // 백엔드에 데이터를 요청하고, 응답 받기
-                const response = await fetch(url, {
-                    method: "delete"
-                });
-
-                // 백엔드가 에러를 보내왔다면?
-                if (parseInt(response.status / 100) != 2) {
-                    // 에러 객체 생성후 에러 발생 --> catch로 이동함
-                    const err = new Error(response.statusText);
-                    err.status = response.status;
-                    throw err;
-                }
-
-                // 응답으로부터 JSON 데이터 추출
-                result = await response.json();
-            } catch (err) {
-                console.error(err);
-                alert(err.message);
-                return;
-            } finally {
-                // 로딩바를 숨김
-                loader.style.display = 'none';
-            }
+            let result = await $.delete(url)
 
             // 목록 페이지로 이동
             window.location = "index.html";

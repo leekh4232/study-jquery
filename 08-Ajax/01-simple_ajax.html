@@ -41,12 +41,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        /** Promise 방식의 Ajax 요청 */
+        /** jQuery 기본 방식의 Ajax 요청 */
         $("#btn1").on("click", (e) => {
             e.preventDefault();
 
             // 요청(접속)할 대상 페이지 주소 -> 이 파일의 소스코드를 읽어온다.
-            const url = "http://localhost:8080sdf/hello.html";
+            const url = "http://localhost:8080/hello.html";
 
             $.ajax({
                 /** ajax 기본 옵션 */
@@ -98,6 +98,24 @@
                     data: {},               // 접속대상에게 전달할 파라미터
                     dataType: 'html',       // 읽어올 내용 형식 (json(기본값),html,xml)
                     timeout: 30000,         // 타임아웃 (30초)
+
+                    // async-await로 처리하더라도 콜백함수는 모두 실행됨
+                    beforeSend: function () {
+                        console.log("callback ::: beforeSend");
+                    },
+                    success: function (req) {
+                        console.log("callback ::: success");
+                        console.log(req);
+                    },
+                    error: function (error) {
+                        // 여기가 먼저 실행되고 catch로 넘어감
+                        // --> 에러 처리를 여기서 할지, catch에서 할지는 개발자가 결정할 부분
+                        console.log("callback ::: error");
+                        console.error(error);
+                    },
+                    complete: function () {
+                        console.log("callback ::: complete");
+                    }
                 });
             } catch (error) {
                 console.error(error);

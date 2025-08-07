@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <style>
+        .my-table {
+            th {
+                width: 100px;
+                text-align: left;
+            }
+
+            td {
+                text-align: left;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+
+            a {
+                padding: 10px 20px;
+                font-size: 14px;
+                line-height: 100%;
+                cursor: pointer;
+                margin: 0 5px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+
+                &:active {
+                    background-color: #004494;
+                    transform: scale(0.98);
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>학과 정보</h1>
+
+    <table class="my-table">
+        <tbody>
+            <tr>
+                <th>학과번호</th>
+                <td id="id"></td>
+            </tr>
+            <tr>
+                <th>학과명</th>
+                <td id="dname"></td>
+            </tr>
+            <tr>
+                <th>위치</th>
+                <td id="loc"></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td id="phone"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td id="email"></td>
+            </tr>
+            <tr>
+                <th>설립년도</th>
+                <td id="established"></td>
+            </tr>
+            <tr>
+                <th>홈페이지</th>
+                <td id="homepage"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="buttons">
+        <a href="index.html">목록보기</a>
+        <a href="add.html">신규등록</a>
+        <a href="#" id="link-edit">수정하기</a>
+        <a href="#" id="link-delete">삭제하기</a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="helper/AjaxSetup.js"></script>
+    <script>
+        /** [1] 페이지 초기화 (Vanilla JS) */
+        // 현재 URL에서 QueryString 부분만 추출
+        const search = location.search;
+        console.log(`search: ${search}`);
+
+        // QueryString을 객체로 변환
+        const searchParams = new URLSearchParams(search);
+        console.log(`searchParams: ${searchParams}`);
+
+        // 변환된 객체를 JSON으로 변환
+        // -> JSON.stringify()는 JSON을 문자열로 변환해서 리턴함
+        const params = Object.fromEntries(searchParams);
+        console.log(`params: ${JSON.stringify(params)}`);
+
+        // JSON에서 id가 존재하는지 검사
+        if (!params.id) {
+            alert("정상적인 경로로 접근하세요.");
+            if (!history.back()) {
+                window.location = 'index.html';
+            }
+        }
+
+        console.log(`id: ${params.id}`);
+
+        /** [2] 백엔드에게 데이터 요청하기 */
+        // 페이지 열림과 동시에 작동해야 하므로 즉시실행함수로 구현
+        (async () => {
+            // 백엔드 요청 URL --> 데이터를 식별하기 위한 고유값은 백엔드 규격에 의해 path 파라미터로 전송
+            const url = `http://localhost:8080/departments/${params.id}`;
+
+            let result = await $.get(url);
+
+            // 결과를 화면에 출력함
+            const { id, dname, loc, phone, email, established, homepage} = result.item;
+
+            $('#id').html(id);
+            $('#dname').html(dname);
+            $('#loc').html(loc);
+            $('#phone').html(phone && `<a href="tel:${phone}">${phone}</a>`);
+            $('#email').html(email && `<a href="mailto:${email}">${email}</a>`);
+            $('#established').html(established);
+            $('#homepage').html(homepage && `<a href="${homepage}" target="_blank">${homepage}</a>`);
+
+            // 수정페이지 이동 링크의 주소 설정하기
+            $("#link-edit").attr("href", `edit.html?id=${id}`);
+
+            // 삭제 링크에 id값과 학과이름 저장하기
+            const linkDelete = $("#link-delete");
+            linkDelete.attr('data-id', id);
+            linkDelete.attr('data-dname', dname);
+        })();
+
+        /** [3] 데이터 삭제 요청 */
+        $("#link-delete").on("click", async e => {
+            e.preventDefault();
+
+            const dname = $(e.currentTarget).data('dname');
+            if (!confirm(`정말 ${dname}(을)를 삭제하시겠습니까?`)) {
+                return;
+            }
+
+            // 백엔드 요청 URL --> 데이터를 식별하기 위한 고유값은 백엔드 규격에 의해 path 파라미터로 전송
+            const url = new URL(`http://localhost:8080/departments/${params.id}`);
+
+            let result = await $.delete(url)
+
+            // 목록 페이지로 이동
+            window.location = "index.html";
+        });
+    </script>
+</body>
+
+</html>

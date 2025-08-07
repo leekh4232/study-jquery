@@ -1,0 +1,45 @@
+/* 테이블 CSS - HTML,CSS에서 Table단원 "03-공지사항.html"예제 재사용 */
+.my-table {
+    border-collapse: collapse;
+    border-top: 3px solid #168;
+    font-size: 14px;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+
+    th {
+        color: #168;
+        background: #f0f6f9;
+        padding: 10px;
+        border: 1px solid #ddd;
+
+        &:first-child {
+            border-left: 0;
+        }
+
+        &:last-child {
+            border-right: 0;
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                background-color: #ecefff;
+            }
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+
+            &:first-child {
+                border-left: 0;
+            }
+
+            &:last-child {
+                border-right: 0;
+            }
+        }
+    }
+}
